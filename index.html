@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Copy Image to Clipboard via Javascript by Owais Afaq</title>
+        <style>
+            div{
+                float:left;
+                clear: both;
+            }
+            img{
+                cursor: pointer;
+                width:300px;
+                height:200px;
+                margin-right:20px;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>Copy Image to Clipboard via Javascript.</h2>
+        <p>Questions? <a href="http://owaisafaq.com/say-hello/">Ask Me!</a></p>
+        <div class="copyable">
+            <img src="images/sherlock.jpg" alt="Copy Image to Clipboard via Javascript."/>
+        </div>
+        <div class="copyable">
+            <img src="images/stark.jpg" alt="Copy Image to Clipboard via Javascript."/>
+        </div>
+
+
+        <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+
+        <script>
+            //Cross-browser function to select content
+            function SelectText(element) {
+                var doc = document;
+                if (doc.body.createTextRange) {
+                    var range = document.body.createTextRange();
+                    range.moveToElementText(element);
+                    range.select();
+                } else if (window.getSelection) {
+                    var selection = window.getSelection();
+                    var range = document.createRange();
+                    range.selectNodeContents(element);
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                }
+            }
+            $(".copyable").click(function (e) {
+                //Make the container Div contenteditable
+                $(this).attr("contenteditable", true);
+                //Select the image
+                SelectText($(this).get(0));
+                //Execute copy Command
+                //Note: This will ONLY work directly inside a click listenner
+                document.execCommand('copy');
+                //Unselect the content
+                window.getSelection().removeAllRanges();
+                //Make the container Div uneditable again
+                $(this).removeAttr("contenteditable");
+                //Success!!
+                alert("image copied!");
+            });
+        </script>
+    </body>
+</html>
